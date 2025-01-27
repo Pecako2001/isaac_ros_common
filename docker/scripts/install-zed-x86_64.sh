@@ -14,19 +14,15 @@ export CUDA_MINOR="$(nvcc --version | grep -o -P ' release .{0,4}' | cut -d. -f2
 sudo apt-get update -y || true
 sudo apt-get install --no-install-recommends lsb-release wget less udev sudo zstd build-essential cmake libpng-dev libgomp1 -y
 
-# TODO: Remove this when zed-ros2-wrapper has a compatible version with ZED_SDK 4.1 (which supports cuda 12.2).
-CUDA_MAJOR=12
-CUDA_MINOR=1
-
 # Download zed SDK installation RUN file to /tmp directory
 cd /tmp
-wget -q -O ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run https://download.stereolabs.com/zedsdk/${ZED_SDK_MAJOR}.${ZED_SDK_MINOR}/cu${CUDA_MAJOR}${CUDA_MINOR%.*}/ubuntu${UBUNTU_RELEASE_YEAR}
-chmod +x ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run ; ./ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run -- silent skip_od_module skip_python skip_cuda
+wget -q -O ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run https://stereolabs.sfo2.cdn.digitaloceanspaces.com/zedsdk/4.2/ZED_SDK_Tegra_L4T36.3_v4.2.3.zstd.run
+chmod +x ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run ; ./ZED_SDK_Tegra_L4T36.3_v4.2.3.zstd.run
 
 # Symlink required for zed SDK, based on 
 # https://github.com/stereolabs/zed-docker/blob/fd514606174d8bb09f21a229f1099205b284ecb6/4.X/ubuntu/devel/Dockerfile#L24
 sudo ln -sf /lib/x86_64-linux-gnu/libusb-1.0.so.0 /usr/lib/x86_64-linux-gnu/libusb-1.0.so
 
 # Cleanup
-rm ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run
+rm ./ZED_SDK_Tegra_L4T36.3_v4.2.3.zstd.run
 sudo rm -rf /var/lib/apt/lists/*
