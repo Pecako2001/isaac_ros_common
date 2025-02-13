@@ -9,10 +9,8 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
-# Specify the ZED SDK version explicitly
 ARG ZED_SDK_MAJOR=4
-ARG ZED_SDK_MINOR=2
-ARG ZED_SDK_PATCH=3
+ARG ZED_SDK_MINOR=0
 
 # zed-ros2-wrapper dependencies
 RUN --mount=type=cache,target=/var/cache/apt \

@@ -233,8 +233,6 @@ DOCKER_ARGS+=("-e FASTRTPS_DEFAULT_PROFILES_FILE=/usr/local/share/middleware_pro
 DOCKER_ARGS+=("-e ROS_DOMAIN_ID")
 DOCKER_ARGS+=("-e USER")
 DOCKER_ARGS+=("-e ISAAC_ROS_WS=/workspaces/isaac_ros-dev")
-DOCKER_ARGS+=("-v $HOME/workspaces/isaac_ros-dev/zed_calibration/zed_camera_calibration:/usr/local/zed/settings")
-DOCKER_ARGS+=("-v $HOME/workspaces/isaac_ros-dev/zed_calibration/zed_neural_calibration:/usr/local/zed/resources")
 
 if [[ $PLATFORM == "aarch64" ]]; then
     DOCKER_ARGS+=("-v /usr/bin/tegrastats:/usr/bin/tegrastats")
@@ -289,5 +287,10 @@ docker run -it --rm \
     --user="admin" \
     --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
     --workdir /workspaces/isaac_ros-dev \
+    -v /dev/:/dev/ \
+    -v /tmp/:/tmp/ \
+    -v /var/nvidia/nvcam/settings/:/var/nvidia/nvcam/settings/ \
+    -v /etc/systemd/system/zed_x_daemon.service:/etc/systemd/system/zed_x_daemon.service \
+    -v ${HOME}/zed_docker_ai/:/usr/local/zed/resources/ \
     $BASE_NAME \
     /bin/bash
