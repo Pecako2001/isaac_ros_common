@@ -1,23 +1,23 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
-ENV ISAAC_ROS_WS=/workspaces/isaac_ros-dev
-WORKDIR ${ISAAC_ROS_WS}
+# ENV ISAAC_ROS_WS=/workspaces/isaac_ros-dev
+# WORKDIR ${ISAAC_ROS_WS}
 
-# Install ROS packages with apt caching
-RUN --mount=type=cache,target=/var/cache/apt \
-    apt-get update && apt-get install -y \
-    ros-humble-isaac-ros-jetson-stats \
-    ros-humble-isaac-ros-stereo-image-proc \
-    ros-humble-nmea-navsat-driver
+# # Install ROS packages with apt caching
+# RUN --mount=type=cache,target=/var/cache/apt \
+#     apt-get update && apt-get install -y \
+#     ros-humble-isaac-ros-jetson-stats \
+#     ros-humble-isaac-ros-stereo-image-proc \
+#     ros-humble-nmea-navsat-driver
 
-# Install Python dependencies
-RUN pip install --no-cache-dir \
-    numpy==1.23 \
-    depthai==2.29.0.0 \
-    influxdb==5.3.2
+# # Install Python dependencies
+# RUN pip install --no-cache-dir \
+#     numpy==1.23 \
+#     depthai==2.29.0.0 \
+#     influxdb==5.3.2
 
-# Copy hotplug script for udev rules
+# # Copy hotplug script for udev rules
 RUN mkdir -p /opt/bigbot/
 COPY udev_rules/99-bigbot-libusb-custom.rules /etc/udev/rules.d/99-bigbot-libusb-custom.rules
 
@@ -42,11 +42,3 @@ COPY udev_rules/99-bigbot-libusb-custom.rules /etc/udev/rules.d/99-bigbot-libusb
 #     colcon build --symlink-install --packages-up-to isaac_ros_visual_slam && \
 #     colcon build --symlink-install --packages-up-to bigbot_controller bigbot_plantdetection bigbot_bringup bigbot_interfaces bigbot_description bigbot_teleop bigbot_base bigbot_control && \
 #     colcon build --symlink-install --packages-up-to isaac_ros_examples
-
-
-# Set permissions for necessary devices and resources
-RUN chmod 666 /dev/ttyACM0 && \
-    chmod -R 777 /usr/local/zed/resources/
-
-# Source ROS setup
-RUN echo "source /workspaces/isaac_ros-dev/install/setup.bash" >> ~/.bashrc
