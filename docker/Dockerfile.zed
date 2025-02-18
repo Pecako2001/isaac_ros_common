@@ -44,8 +44,8 @@ USER root
 RUN pip install --no-cache-dir \
     numpy==1.23 \
     depthai==2.29.0.0 \
-    influxdb==5.3.2
-    iai-gxipy==1.23.0
+    influxdb==5.3.2 \
+    iai-gxipy
 
 # # Copy hotplug script for udev rules
 RUN mkdir -p /opt/bigbot/
