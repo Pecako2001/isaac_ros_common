@@ -44,7 +44,7 @@ USER root
 RUN pip install --no-cache-dir \
     numpy==1.23 \
     depthai==2.29.0.0 \
-    influxdb==5.3.2 \
+    asyncpg \
     iai-gxipy
 
 # # Copy hotplug script for udev rules
@@ -61,5 +61,47 @@ WORKDIR /opt/daheng_sdk/Galaxy_Linux-armhf_Gige-U3_32bits-64bits_1.5.2303.9202
 RUN chmod +x ./Galaxy_camera.run
 RUN ./Galaxy_camera.run
 
+# Install apt installations
+RUN --mount=type=cache,target=/var/cache/apt \
+apt-get update && apt-get install -y \
+ros-humble-ublox-gps  \
+    ros-humble-geographic-info \
+    ros-humble-isaac-ros-jetson-stats \
+    ros-humble-isaac-ros-stereo-image-proc \
+    ros-humble-xacro
+
+# Install ROS2 ZED Wrapper deps
+RUN --mount=type=cache,target=/var/cache/apt \
+apt-get update && apt-get install -y \
+    ros-humble-point-cloud-transport-plugins \
+    ros-humble-draco-point-cloud-transport \
+    ros-humble-zlib-point-cloud-transport \
+    ros-humble-zstd-point-cloud-transport \
+    ros-humble-point-cloud-transport \
+    ros-humble-ffmpeg-image-transport \
+    ros-humble-ffmpeg-encoder-decoder
+
+# Install Isaac ROS Core deps
+RUN --mount=type=cache,target=/var/cache/apt \
+apt-get update && apt-get install -y \
+    ros-humble-isaac-ros-test \
+    ros-humble-isaac-ros-h264-decoder \
+    ros-humble-isaac-ros-managed-nitros \
+    ros-humble-isaac-ros-image-proc
+
+# Install Isaac ROS Visual SLAM & Related Deps
+RUN --mount=type=cache,target=/var/cache/apt \
+apt-get update && apt-get install -y \
+    ros-humble-isaac-ros-managed-nitros \
+    ros-humble-isaac-ros-test \
+    ros-humble-isaac-ros-launch-utils \
+    ros-humble-isaac-ros-visual-slam \
+    ros-humble-nova-carter-navigation \
+    ros-humble-isaac-ros-dnn-image-encoder \
+    ros-humble-isaac-ros-triton \
+    ros-humble-isaac-ros-unet \
+    ros-humble-isaac-ros-peoplesemseg-models-install
+
 # Set working directory back to the root
 WORKDIR /
+
