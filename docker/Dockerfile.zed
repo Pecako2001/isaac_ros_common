@@ -45,7 +45,7 @@ RUN pip install --no-cache-dir \
     numpy==1.23 \
     depthai==2.29.0.0 \
     asyncpg \
-    iai-gxipy
+    iai-gxipy==2.0.2105.9261
 
 # # Copy hotplug script for udev rules
 RUN mkdir -p /opt/bigbot/
@@ -68,7 +68,8 @@ ros-humble-ublox-gps  \
     ros-humble-geographic-info \
     ros-humble-isaac-ros-jetson-stats \
     ros-humble-isaac-ros-stereo-image-proc \
-    ros-humble-xacro
+    ros-humble-xacro \
+    ros-humble-tf-transformations 
 
 # Install ROS2 ZED Wrapper deps
 RUN --mount=type=cache,target=/var/cache/apt \
