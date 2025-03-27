@@ -45,7 +45,15 @@ RUN pip install --no-cache-dir \
     numpy==1.23 \
     depthai==2.29.0.0 \
     asyncpg \
-    iai-gxipy==2.0.2105.9261
+    iai-gxipy==2.0.2105.9261 \
+    psycopg2 \
+    fastapi==0.110.0 \
+    uvicorn[standard] \
+    asyncpg==0.29.0 \
+    paho-mqtt==1.6.1 \
+    ultralytics \
+    websockets \ 
+    httpx
 
 # # Copy hotplug script for udev rules
 RUN mkdir -p /opt/bigbot/
@@ -64,12 +72,13 @@ RUN ./Galaxy_camera.run
 # Install apt installations
 RUN --mount=type=cache,target=/var/cache/apt \
 apt-get update && apt-get install -y \
-ros-humble-ublox-gps  \
+    ros-humble-ublox-gps  \
     ros-humble-geographic-info \
     ros-humble-isaac-ros-jetson-stats \
     ros-humble-isaac-ros-stereo-image-proc \
     ros-humble-xacro \
-    ros-humble-tf-transformations 
+    ros-humble-tf-transformations \
+    python3-libnvinfer
 
 # Install ROS2 ZED Wrapper deps
 RUN --mount=type=cache,target=/var/cache/apt \
@@ -80,7 +89,9 @@ apt-get update && apt-get install -y \
     ros-humble-zstd-point-cloud-transport \
     ros-humble-point-cloud-transport \
     ros-humble-ffmpeg-image-transport \
-    ros-humble-ffmpeg-encoder-decoder
+    ros-humble-ffmpeg-encoder-decoder \
+    ros-humble-zed-msgs \ 
+    ros-humble-cob-srvs
 
 # Install Isaac ROS Core deps
 RUN --mount=type=cache,target=/var/cache/apt \
