@@ -283,6 +283,7 @@ docker run -it --rm \
     -v $ISAAC_ROS_DEV_DIR:/workspaces/isaac_ros-dev \
     -v /etc/localtime:/etc/localtime:ro \
     --name "$CONTAINER_NAME" \
+    --env IP_COMPUTER=192.168.2.11,192.168.2.11 \
     --runtime nvidia \
     --user="admin" \
     --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \

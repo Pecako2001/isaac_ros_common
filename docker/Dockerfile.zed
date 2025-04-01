@@ -53,21 +53,13 @@ RUN pip install --no-cache-dir \
     paho-mqtt==1.6.1 \
     ultralytics \
     websockets \ 
-    httpx
+    httpx \
+    redis \
+    reduct-py
 
 # # Copy hotplug script for udev rules
 RUN mkdir -p /opt/bigbot/
 COPY udev_rules/99-bigbot-libusb-custom.rules /etc/udev/rules.d/99-bigbot-libusb-custom.rules
-
-# Set working directory
-WORKDIR /opt/daheng_sdk
-
-# Download the Daheng SDK
-RUN wget -O Galaxy_Linux-armhf.zip "https://hs.va-imaging.com/hubfs/Supportshare/Daheng%20SDK/Galaxy_Linux-armhf_Gige-U3_32bits-64bits_1.5.2303.9202.zip"
-RUN unzip Galaxy_Linux-armhf.zip
-WORKDIR /opt/daheng_sdk/Galaxy_Linux-armhf_Gige-U3_32bits-64bits_1.5.2303.9202
-RUN chmod +x ./Galaxy_camera.run
-RUN ./Galaxy_camera.run
 
 # Install apt installations
 RUN --mount=type=cache,target=/var/cache/apt \
