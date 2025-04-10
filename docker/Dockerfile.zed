@@ -42,20 +42,51 @@ USER root
 
 # TODO: MOVE TO SEPERATE DOCKER FILE THESE ARE BIGBOT DEPENCIES
 RUN pip install --no-cache-dir \
-    numpy==1.23 \
     depthai==2.29.0.0 \
     asyncpg \
-    iai-gxipy==2.0.2105.9261 \
     psycopg2 \
     fastapi==0.110.0 \
     uvicorn[standard] \
     asyncpg==0.29.0 \
     paho-mqtt==1.6.1 \
-    ultralytics \
+    ultralytics --no-deps\
+    dill \
+    lap \
+    async_timeout \
     websockets \ 
     httpx \
-    redis \
-    reduct-py
+    redis
+
+# Enable GPS access
+RUN chmod 666 /dev/ttyACM0 || true
+
+# Building of torchvision version for torch 2.2.0 : https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048
+ENV USE_CUDA=1 
+ENV USE_CUDNN=1
+ENV USE_MKLDNN=1
+ENV TORCH_CUDA_ARCH_LIST="8.7"
+ENV FORCE_CUDA=1
+ENV FORCE_MPS=1
+
+# Install system-level dependencies for torchvision build
+RUN apt-get update && apt-get install -y \
+    libjpeg-dev \
+    zlib1g-dev \
+    libpython3-dev \
+    libopenblas-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libswscale-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Clone and build torchvision from source
+RUN git clone --branch v0.17.1 https://github.com/pytorch/vision.git && \
+    cd vision && \
+    export BUILD_VERSION=0.17.1 && \
+    python3 setup.py install && \
+    cd .. && \
+    rm -rf vision
+
 
 # # Copy hotplug script for udev rules
 RUN mkdir -p /opt/bigbot/
