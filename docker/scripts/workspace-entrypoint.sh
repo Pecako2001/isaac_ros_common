@@ -14,5 +14,7 @@ source /opt/ros/${ROS_DISTRO}/setup.bash
 
 # Restart udev daemon
 sudo service udev restart
+# source install/setup.bash
 
+# ros2 launch bigbot_controller system.launch.py
 $@

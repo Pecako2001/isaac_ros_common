@@ -290,6 +290,7 @@ docker run -it --rm \
     --workdir /workspaces/isaac_ros-dev \
     -v /dev/:/dev/ \
     -v /tmp/:/tmp/ \
+    -v /usr/local/zed/settings/:/usr/local/zed/settings/ \
     -v /var/nvidia/nvcam/settings/:/var/nvidia/nvcam/settings/ \
     -v /etc/systemd/system/zed_x_daemon.service:/etc/systemd/system/zed_x_daemon.service \
     -v ${HOME}/zed_docker_ai/:/usr/local/zed/resources/ \
