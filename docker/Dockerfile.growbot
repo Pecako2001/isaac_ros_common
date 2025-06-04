@@ -99,7 +99,9 @@ apt-get update && apt-get install -y \
 
 
 RUN pip install --no-cache-dir \
-    ultralytics==8.3.134 --no-deps
+    ultralytics==8.3.134 --no-deps \
+    dotenv \
+    python-dotenv==1.1.0
      
 # Set working directory back to the root
 WORKDIR /
